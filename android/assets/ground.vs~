@@ -1,0 +1,22 @@
+#version 300 es
+
+in vec2 pos;
+in float influence;
+
+uniform mat4 view;
+uniform vec2 scroll;
+uniform sampler2D heights;
+
+
+//out vec2 outpos;
+
+void main() {
+	vec2 calc = pos + scroll;
+	vec4 worldpos = view * vec4(calc.x, calc.y, 1.0, 1.0);
+	vec2 texpos = vec2((worldpos.x + 1.0) / 2.0, 0.0f);
+	vec4 t = texture(heights, texpos);
+	float h = t.r * influence;
+
+	worldpos = view * vec4(pos.x, pos.y + h * 100.0, 1.0, 1.0);
+	gl_Position = worldpos;
+}

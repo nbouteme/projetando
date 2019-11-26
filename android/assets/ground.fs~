@@ -1,0 +1,7 @@
+precision mediump float
+
+varying vec2 outpos;
+
+void main() {
+	 gl_Fragcolor = vec4(1.0f);
+}
