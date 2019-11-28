@@ -3,21 +3,23 @@
 precision mediump float;
 
 uniform sampler2D tex;
+uniform vec2 ts;
 out vec4 outcol;
 
 in float h;
 in float raw;
 in float inp;
+in float v;
 in vec2 opos;
 
 void main() {
 //	float col = 1.0;
-    vec2 ts = vec2(32.0, 64.0);
-    float b = 28.0;
-    float yp = gl_FragCoord.y - h * 100.0 + b;
-    vec2 coord = vec2(mod(inp * 512.0, ts.x),
-                    ts.y / 2.0 - mod(yp, ts.y / 2.));
-    if (yp < ts.y * 1.5)
-        coord.y += ts.y / 2.0;
-	outcol = vec4(texture(tex, coord / ts).rgb, 1.0);
+    float yp = (100.0 + h * 100.0) - gl_FragCoord.y;
+    vec2 its = vec2(16., 32.) * 4.;
+    vec2 coord = vec2(inp * 512.0f,
+                    mod(yp, its.y * 0.5));
+    if (yp > its.y * 0.5)
+        coord.y += its.y * 0.5;
+	outcol = vec4(texture(tex, coord / its).rgb, 1.0);
+	//outcol = vec4(1.0);
 }

@@ -10,6 +10,7 @@ uniform float minh;
 uniform float maxh;
 
 out float h;
+out float v;
 out vec2 opos;
 out float raw;
 out float inp;
@@ -66,6 +67,7 @@ void main() {
     raw = snoise(calc.x / steep);
     inp = calc.x / steep;
     h = raw * (maxh - minh) + minh;
+    v = influence;
 	worldpos = view * vec4(pos.x, pos.y + influence * h * 100.0, 1.0, 1.0);
 	gl_Position = worldpos;
 }
