@@ -1,5 +1,6 @@
 package com.sleepy2
 
+import com.badlogic.gdx.Application
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.*
@@ -32,13 +33,23 @@ class Ground : Actor() {
     var tr = TextureRegion()
 
     init {
-        cam.setToOrtho(0f, 1280f, 0f, 720f, 0f, -2f)
+        if (Gdx.app.type == Application.ApplicationType.Android) {
+            bt = Texture(Gdx.files.internal("groundhi.png"));
+        }
+
+        bt.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.ClampToEdge);
+        bt.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+        cam.setToOrtho(0f, Gdx.graphics.width.toFloat(),
+                0f, Gdx.graphics.height.toFloat(),
+                0f, -2f)
         x = 0f
         y = 0f
         touchable = Touchable.enabled
-        width = 1280f
+        width = GameScreen.worldWidth
         height = 100f
 
+        scroll.x = Math.random().toFloat() * 50000f;
         tr.texture = bt;
         tr.setRegion(0, 0, 1, 1);
         val points = FloatArray(width.toInt() * 6)
@@ -57,16 +68,20 @@ class Ground : Actor() {
         mesh.setVertices(points, 0, points.size)
 
         print(shader.log)
+        shader.begin()
+        shader.setUniformMatrix("view", cam)
+        shader.setUniformi("tex", 0)
+        shader.end()
     }
 
-    fun updateShaderState() {
-        shader.setUniformMatrix("view", cam)
+    private fun updateShaderState() {
         shader.setUniformf("scroll", scroll)
         shader.setUniformf("steep", steepness)
         shader.setUniformf("minh", minh)
         shader.setUniformf("maxh", maxh)
 
-        shader.setUniformi("tex", 0)
+//        shader.setUniformf("ts", Vector2(bt.width.toFloat(), bt.height.toFloat()))
+
     }
 
     override fun draw(batch: Batch?, parentAlpha: Float) {
