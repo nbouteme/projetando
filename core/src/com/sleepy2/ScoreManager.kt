@@ -24,13 +24,16 @@ object ScoreManager {
             if (_score > _maxscore) {
                 _maxscore = _score.toInt()
                 _broken = true;
-                prefs.putInteger("maxscore", _maxscore)
-                prefs.flush()
             }
         }
 
     val maxScore: Int
         get()  = _maxscore
+
+    fun preserve() {
+        prefs.putInteger("maxscore", _maxscore)
+        prefs.flush()
+    }
 
     fun reset() {
         _score = 0f

@@ -98,6 +98,7 @@ class ResultScreen : Stage {
             img.setScale(0.5f)
         }
 
+        ScoreManager.preserve()
         img.x = viewport.worldWidth * 0.5f - img.width * 0.5f * img.scaleX;
         img.y = viewport.worldHeight * 0.5f - img.height * 0.5f * img.scaleY;
         this.addActor(img)
