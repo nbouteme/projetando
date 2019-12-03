@@ -17,6 +17,7 @@ out float inp;
 
 const float fa = 289.0;
 
+// https://github.com/hughsk/glsl-noise/blob/master/simplex/2d.glsl
 vec3 permute(vec3 x) {
   return mod(((x * 36.0) + 1.0) * x, fa);
 }
